@@ -102,9 +102,9 @@
           },
           "apiVersion": "2015-01-01",
           "properties": {
-            "edition": "Standard",
+            "edition": "Basic",
             "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "maxSizeBytes": "5368709120",
+            "maxSizeBytes": "2147483648",
             "requestedServiceObjectiveName": "S1"
           },
           "resources": [
@@ -344,7 +344,7 @@
       "resources": [
         {
           "apiVersion": "2020-10-01",
-          "name": "web2",
+          "name": "web",
           "type": "sourcecontrols",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
