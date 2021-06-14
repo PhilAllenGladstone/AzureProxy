@@ -4,7 +4,7 @@
   "parameters": {
     "repoURL": {
       "type": "string",
-      "defaultValue": "https://github.com/openactive/azure-rpde-proxy.git",
+      "defaultValue": "https://github.com/PhilAllenGladstone/AzureProxy/azure-rpde-proxy.git",
       "metadata": {
         "description": "The URL for the GitHub repository that contains the project to deploy."
       }
@@ -18,14 +18,14 @@
     },
     "globallyUniqueEndpointSubdomain": {
       "type": "string",
-      "defaultValue": "lmscloud-openactive-proxy",
+      "defaultValue": "pallentest-openactive-proxy",
       "metadata": {
         "description": "Subdomain used in the web address of proxied OpenActive endpoints: https://{subdomain}.azurewebsites.net/api/feeds/"
       }
     },
     "resourcePostfix": {
       "type": "string",
-      "defaultValue": "live",
+      "defaultValue": "test",
       "metadata": {
         "description": "Postfix to help identify the deployed resource."
       }
@@ -43,7 +43,7 @@
     },
     "organizationName": {
       "type": "string",
-      "defaultValue": "Acme Systems",
+      "defaultValue": "PallenTest Systems",
       "metadata": {
         "description": "The name of the organization providing this proxy."
       }
@@ -59,7 +59,7 @@
   "variables": {
     "resourcePostfix": "[concat('openactive-proxy-', parameters('resourcePostfix'), '-', uniqueString(resourceGroup().id))]",
     "serviceBusNamespaceName": "[concat('servicebus', '-', variables('resourcePostfix'))]",
-    "appInsightsServiceName": "[concat('appinsights', '-', variables('resourcePostfix'))]",
+    //"appInsightsServiceName": "[concat('appinsights', '-', variables('resourcePostfix'))]",
     "hostingPlanName": "[concat('hostingplan', '-', variables('resourcePostfix'))]",
     "sqlserverName": "[concat('sqlserver', '-', variables('resourcePostfix'))]",
     "sqlserverAdminLogin": "[concat('l', uniqueString(resourceGroup().id, '9A08DDB9-95A1-495F-9263-D89738ED4205'))]",
@@ -231,19 +231,19 @@
         }
       ]
     },
-    {
-      "type": "microsoft.insights/components",
-      "kind": "other",
-      "name": "[variables('appInsightsServiceName')]",
-      "apiVersion": "2014-04-01",
-      "location": "West Europe",
-      "tags": {},
-      "scale": null,
-      "properties": {
-        "ApplicationId": "[variables('appInsightsServiceName')]"
-      },
-      "dependsOn": []
-    },
+    //{
+    //  "type": "microsoft.insights/components",
+    //  "kind": "other",
+    //  "name": "[variables('appInsightsServiceName')]",
+    //  "apiVersion": "2014-04-01",
+    //  "location": "West Europe",
+    //  "tags": {},
+    //  "scale": null,
+    //  "properties": {
+    //    "ApplicationId": "[variables('appInsightsServiceName')]"
+    //  },
+    //  "dependsOn": []
+    //},
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2015-04-01",
@@ -256,7 +256,7 @@
       }
     },
     {
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2020-10-01",
       "type": "Microsoft.Web/sites",
       "name": "[variables('functionAppName')]",
       "location": "[resourceGroup().location]",
@@ -326,25 +326,25 @@
             {
               "name": "Project",
               "value": "AzureRpdeProxy"
-            },
-            {
-              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "[reference(concat('microsoft.insights/components/', variables('appInsightsServiceName'))).InstrumentationKey]"
             }
+            //{
+            //  "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+            //  "value": "[reference(concat('microsoft.insights/components/', variables('appInsightsServiceName'))).InstrumentationKey]"
+            //}
           ]
         }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-        "[resourceId('microsoft.insights/components', variables('appInsightsServiceName'))]",
+        //"[resourceId('microsoft.insights/components', variables('appInsightsServiceName'))]",
         "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespaceName'))]",
         "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
       ],
       "resources": [
         {
-          "apiVersion": "2015-08-01",
-          "name": "web",
+          "apiVersion": "2020-10-01",
+          "name": "web2",
           "type": "sourcecontrols",
           "dependsOn": [
             "[resourceId('Microsoft.Web/Sites', variables('functionAppName'))]"
